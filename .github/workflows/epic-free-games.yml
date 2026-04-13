@@ -1,0 +1,40 @@
+name: Epic Free Games Notifier
+
+on:
+  schedule:
+    - cron: "0 16 * * 4"  # Thursday
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download previous DB (if exists)
+        uses: actions/download-artifact@v4
+        with:
+          name: epic-db
+          path: .
+        continue-on-error: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python script.py
+
+      - name: Upload updated DB
+        uses: actions/upload-artifact@v4
+        with:
+          name: epic-db
+          path: games.db
