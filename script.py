@@ -226,7 +226,7 @@ def main():
         send_to_discord(new_games)
     else:
         log("No new games found")
-        send_heartbeat()  # optional
+        # send_heartbeat()  # optional. Disabled due to change to daily runs
 
 
 if __name__ == "__main__":
