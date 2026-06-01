@@ -75,10 +75,9 @@ def get_free_games():
 
         price_info = game.get("price", {}).get("totalPrice", {})
         discount_price = price_info.get("discountPrice", -1)
-        original_price = price_info.get("originalPrice", 0)
 
         # Must actually be free
-        if discount_price != 0 or original_price == 0:
+        if discount_price != 0:
             continue
 
         offers = promotions.get("promotionalOffers", [])
